@@ -1,4 +1,4 @@
-package com.example.geoquiz;
+package com.example.geoquiz.controller;
 
 import android.os.Bundle;
 import android.view.View;
@@ -8,12 +8,16 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.geoquiz.R;
+import com.example.geoquiz.model.Question;
+
 public class QuizActivity extends AppCompatActivity {
 
     private TextView mTextViewQuestion;
     private Button mButtonTrue;
     private Button mButtonFalse;
     private Button mButtonNext;
+    private Button mButtonPrev;
 
     private int mCurrentIndex = 0;
     private Question[] mQuestionBank = {
@@ -49,6 +53,7 @@ public class QuizActivity extends AppCompatActivity {
         mButtonTrue = findViewById(R.id.btn_true);
         mButtonFalse = findViewById(R.id.btn_false);
         mButtonNext = findViewById(R.id.btn_next);
+        mButtonPrev = findViewById(R.id.btn_prev);
     }
 
     private void setListeners() {
@@ -70,6 +75,14 @@ public class QuizActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 mCurrentIndex = (mCurrentIndex + 1) % mQuestionBank.length;
+                updateQuestion();
+            }
+        });
+
+        mButtonPrev.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mCurrentIndex = (mCurrentIndex - 1 + mQuestionBank.length) % mQuestionBank.length;
                 updateQuestion();
             }
         });
