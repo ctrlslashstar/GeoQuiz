@@ -13,8 +13,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="8dp"
-        android:text="@string/question_text"
-        android:textSize="24sp" />
+        android:textColor="@android:color/black"
+        android:textSize="20sp" />
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -40,5 +40,13 @@
             android:textStyle="bold" />
 
     </LinearLayout>
+
+    <Button
+        android:id="@+id/btn_next"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/button_next"
+        android:textSize="18sp"
+        android:textStyle="bold" />
 
 </LinearLayout>
