@@ -1,17 +1,22 @@
 package com.example.geoquiz.controller;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.geoquiz.R;
 import com.example.geoquiz.model.Question;
 
 public class QuizActivity extends AppCompatActivity {
+
+    private static final String TAG = "QuizActivity";
+    private static final String BUNDLE_KEY_CURRENT_INDEX = "currentIndex";
 
     private TextView mTextViewQuestion;
     private Button mButtonTrue;
@@ -37,6 +42,16 @@ public class QuizActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        if (savedInstanceState != null) {
+            Log.d(TAG, "savedInstanceState: " + savedInstanceState);
+
+            mCurrentIndex = savedInstanceState.getInt(BUNDLE_KEY_CURRENT_INDEX, 0);
+        } else
+            Log.d(TAG, "savedInstanceState is NULL!!");
+
+//        System.out.println("I'm in onCreate"); //this is wrong
+        Log.d(TAG, "onCreate: " + mCurrentIndex);
+
         //this method will create the layout
         //inflate: creating object of xml layout
         setContentView(R.layout.activity_quiz);
@@ -46,6 +61,53 @@ public class QuizActivity extends AppCompatActivity {
         setListeners();
 
         updateQuestion();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        Log.d(TAG, "onStart: " + mCurrentIndex);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        Log.d(TAG, "onResume: " + mCurrentIndex);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        Log.d(TAG, "onPause: " + mCurrentIndex);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+
+        Log.d(TAG, "onStop: " + mCurrentIndex);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        Log.d(TAG, "onDestory: " + mCurrentIndex);
+    }
+
+    /**
+     * it will save bundle before it will be destroyed
+     * @param outState
+     */
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        Log.d(TAG, "onSaveInstanceState: " + mCurrentIndex);
+
+        outState.putInt(BUNDLE_KEY_CURRENT_INDEX, mCurrentIndex);
     }
 
     private void findViews() {
