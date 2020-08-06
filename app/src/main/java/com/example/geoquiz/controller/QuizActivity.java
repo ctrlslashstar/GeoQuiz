@@ -36,11 +36,13 @@ public class QuizActivity extends AppCompatActivity {
 
     /**
      * This method is used to crete ui for activity.
+     *
      * @param savedInstanceState
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.d(TAG, "onCreate: " + mCurrentIndex);
 
         if (savedInstanceState != null) {
             Log.d(TAG, "savedInstanceState: " + savedInstanceState);
@@ -48,9 +50,6 @@ public class QuizActivity extends AppCompatActivity {
             mCurrentIndex = savedInstanceState.getInt(BUNDLE_KEY_CURRENT_INDEX, 0);
         } else
             Log.d(TAG, "savedInstanceState is NULL!!");
-
-//        System.out.println("I'm in onCreate"); //this is wrong
-        Log.d(TAG, "onCreate: " + mCurrentIndex);
 
         //this method will create the layout
         //inflate: creating object of xml layout
@@ -100,6 +99,7 @@ public class QuizActivity extends AppCompatActivity {
 
     /**
      * it will save bundle before it will be destroyed
+     *
      * @param outState
      */
     @Override
