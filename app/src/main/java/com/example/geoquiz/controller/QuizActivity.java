@@ -23,6 +23,7 @@ public class QuizActivity extends AppCompatActivity {
     private Button mButtonFalse;
     private Button mButtonNext;
     private Button mButtonPrev;
+    private Button mButtonCheat;
 
     private int mCurrentIndex = 0;
     private Question[] mQuestionBank = {
@@ -44,16 +45,16 @@ public class QuizActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         Log.d(TAG, "onCreate: " + mCurrentIndex);
 
+        //this method will create the layout
+        //inflate: creating object of xml layout
+        setContentView(R.layout.activity_quiz);
+
         if (savedInstanceState != null) {
             Log.d(TAG, "savedInstanceState: " + savedInstanceState);
 
             mCurrentIndex = savedInstanceState.getInt(BUNDLE_KEY_CURRENT_INDEX, 0);
         } else
             Log.d(TAG, "savedInstanceState is NULL!!");
-
-        //this method will create the layout
-        //inflate: creating object of xml layout
-        setContentView(R.layout.activity_quiz);
 
         //if we want to change logic we must first find the view objects (it must have "id")
         findViews();
@@ -116,6 +117,7 @@ public class QuizActivity extends AppCompatActivity {
         mButtonFalse = findViewById(R.id.btn_false);
         mButtonNext = findViewById(R.id.btn_next);
         mButtonPrev = findViewById(R.id.btn_prev);
+        mButtonCheat = findViewById(R.id.btn_cheat);
     }
 
     private void setListeners() {
@@ -146,6 +148,13 @@ public class QuizActivity extends AppCompatActivity {
             public void onClick(View view) {
                 mCurrentIndex = (mCurrentIndex - 1 + mQuestionBank.length) % mQuestionBank.length;
                 updateQuestion();
+            }
+        });
+
+        mButtonCheat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //todo
             }
         });
     }
