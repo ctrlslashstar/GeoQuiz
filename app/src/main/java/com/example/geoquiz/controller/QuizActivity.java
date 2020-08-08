@@ -18,6 +18,7 @@ public class QuizActivity extends AppCompatActivity {
 
     private static final String TAG = "QuizActivity";
     private static final String BUNDLE_KEY_CURRENT_INDEX = "currentIndex";
+    public static final String EXTRA_QUESTION_ANSWER = "questionAnswer";
 
     private TextView mTextViewQuestion;
     private Button mButtonTrue;
@@ -156,6 +157,8 @@ public class QuizActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(QuizActivity.this, CheatActivity.class);
+                intent.putExtra(EXTRA_QUESTION_ANSWER, mQuestionBank[mCurrentIndex].isAnswerTrue());
+
                 startActivity(intent);
             }
         });
