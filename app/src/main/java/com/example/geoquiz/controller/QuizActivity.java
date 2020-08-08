@@ -1,5 +1,6 @@
 package com.example.geoquiz.controller;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -154,7 +155,8 @@ public class QuizActivity extends AppCompatActivity {
         mButtonCheat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //todo
+                Intent intent = new Intent(QuizActivity.this, CheatActivity.class);
+                startActivity(intent);
             }
         });
     }

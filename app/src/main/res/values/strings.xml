@@ -17,4 +17,6 @@
     <string name="button_next">بعدی</string>
     <string name="button_previous">قبلی</string>
     <string name="button_cheat">تقلب</string>
+    <string name="warning_text">آیا اطمینان برای تقلب دارید؟</string>
+    <string name="button_show_answer">نمایش تقلب</string>
 </resources>
