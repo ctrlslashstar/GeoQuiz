@@ -12,6 +12,7 @@ import com.example.geoquiz.R;
 
 public class CheatActivity extends AppCompatActivity {
 
+    public static final String EXTRA_IS_CHEAT = "com.example.geoquiz.isCheat";
     private TextView mTextViewAnswer;
     private Button mButtonShowAnswer;
 
@@ -26,6 +27,9 @@ public class CheatActivity extends AppCompatActivity {
 
         findViews();
         setListeners();
+
+        //1.ResultCode: OK | Cancel (default: Cancel)
+        //2.ResultIntent: null (default: null)
     }
 
     private void findViews() {
@@ -41,7 +45,16 @@ public class CheatActivity extends AppCompatActivity {
                     mTextViewAnswer.setText(R.string.button_true);
                 else
                     mTextViewAnswer.setText(R.string.button_false);
+
+                setShownAnswerResult(true);
             }
         });
+    }
+
+    private void setShownAnswerResult(boolean isCheat) {
+        Intent intent = new Intent();
+        intent.putExtra(EXTRA_IS_CHEAT, isCheat);
+
+        setResult(RESULT_OK, intent);
     }
 }

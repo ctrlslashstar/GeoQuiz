@@ -1,5 +1,6 @@
 package com.example.geoquiz.controller;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -9,6 +10,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.geoquiz.R;
@@ -18,7 +20,8 @@ public class QuizActivity extends AppCompatActivity {
 
     private static final String TAG = "QuizActivity";
     private static final String BUNDLE_KEY_CURRENT_INDEX = "currentIndex";
-    public static final String EXTRA_QUESTION_ANSWER = "questionAnswer";
+    public static final String EXTRA_QUESTION_ANSWER = "com.example.geoquiz.questionAnswer";
+    public static final int REQUEST_CODE_CHEAT = 0;
 
     private TextView mTextViewQuestion;
     private Button mButtonTrue;
@@ -27,6 +30,7 @@ public class QuizActivity extends AppCompatActivity {
     private Button mButtonPrev;
     private Button mButtonCheat;
 
+    private boolean mIsCheater = false;
     private int mCurrentIndex = 0;
     private Question[] mQuestionBank = {
             new Question(R.string.question_australia, false),
@@ -113,6 +117,19 @@ public class QuizActivity extends AppCompatActivity {
         outState.putInt(BUNDLE_KEY_CURRENT_INDEX, mCurrentIndex);
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (resultCode != Activity.RESULT_OK || data == null)
+            return;
+
+        //this means if the result if backed from CheatActivity
+        if (requestCode == REQUEST_CODE_CHEAT) {
+            mIsCheater = data.getBooleanExtra(CheatActivity.EXTRA_IS_CHEAT, false);
+        }
+    }
+
     private void findViews() {
         mTextViewQuestion = findViewById(R.id.txtview_question_text);
         mButtonTrue = findViewById(R.id.btn_true);
@@ -142,6 +159,8 @@ public class QuizActivity extends AppCompatActivity {
             public void onClick(View view) {
                 mCurrentIndex = (mCurrentIndex + 1) % mQuestionBank.length;
                 updateQuestion();
+
+                mIsCheater = false;
             }
         });
 
@@ -150,6 +169,8 @@ public class QuizActivity extends AppCompatActivity {
             public void onClick(View view) {
                 mCurrentIndex = (mCurrentIndex - 1 + mQuestionBank.length) % mQuestionBank.length;
                 updateQuestion();
+
+                mIsCheater = false;
             }
         });
 
@@ -159,7 +180,7 @@ public class QuizActivity extends AppCompatActivity {
                 Intent intent = new Intent(QuizActivity.this, CheatActivity.class);
                 intent.putExtra(EXTRA_QUESTION_ANSWER, mQuestionBank[mCurrentIndex].isAnswerTrue());
 
-                startActivity(intent);
+                startActivityForResult(intent, REQUEST_CODE_CHEAT);
             }
         });
     }
@@ -170,12 +191,13 @@ public class QuizActivity extends AppCompatActivity {
     }
 
     private void checkAnswer(boolean userPressed) {
-        if (mQuestionBank[mCurrentIndex].isAnswerTrue() == userPressed) {
-            Toast.makeText(QuizActivity.this, R.string.toast_correct, Toast.LENGTH_LONG)
-                    .show();
+        if (mIsCheater) {
+            Toast.makeText(this, R.string.toast_judgment, Toast.LENGTH_LONG).show();
         } else {
-            Toast.makeText(QuizActivity.this, R.string.toast_incorrect, Toast.LENGTH_SHORT)
-                    .show();
+            if (mQuestionBank[mCurrentIndex].isAnswerTrue() == userPressed)
+                Toast.makeText(this, R.string.toast_correct, Toast.LENGTH_LONG).show();
+            else
+                Toast.makeText(this, R.string.toast_incorrect, Toast.LENGTH_SHORT).show();
         }
     }
 }
